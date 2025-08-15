@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"> <!-- Set to RTL -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب جديد - الأستاذ إسلام موسى</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Cairo for Arabic -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Link to Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        /* -- THEME & COLORS -- */
+        .theme-light {
+            --bg-primary: #F5F1E7; /* Papyrus White */
+            --bg-secondary: #EAE3D2; /* Light Papyrus */
+            --bg-content: #FFFFFF; /* White for content cards */
+            --text-primary: #312A1F; /* Dark Clay */
+            --text-secondary: #796A57;
+            --accent-gold: #D4AF37; /* Classic Gold */
+            --accent-lapis: #26428B; /* Lapis Lazuli Blue */
+            --border-color: rgba(49, 42, 31, 0.1);
+            --footer-bg: #312A1F;
+            --footer-text: #F5F1E7;
+            --success-bg: #D4EDDA; /* Light green for success */
+            --success-text: #155724; /* Dark green for success */
+            --error-bg: #F8D7DA; /* Light red for error */
+            --error-text: #721C24; /* Dark red for error */
+        }
+        .theme-dark {
+            --bg-primary: #1a202c; /* Original Dark BG */
+            --bg-secondary: #2d3748; /* Original Lighter Dark BG */
+            --bg-content: #1f2937; /* Dark Slate for content cards */
+            --text-primary: #e2e8f0; /* Light text color */
+            --text-secondary: #9CA3AF;
+            --accent-gold: #FBBF24; /* Brighter Gold */
+            --accent-lapis: #60A5FA; /* Lighter Lapis */
+            --border-color: rgba(249, 250, 251, 0.1);
+            --footer-bg: #111827;
+            --footer-text: #F9FAFB;
+            --success-bg: #1C453C; /* Darker green for success */
+            --success-text: #A7F3D0; /* Lighter green for success */
+            --error-bg: #7F1D1D; /* Darker red for error */
+            --error-text: #FCA5A5; /* Lighter red for error */
+        }
+
+        /* Applying theme colors */
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.5s, color 0.5s;
+        }
+        .bg-primary { background-color: var(--bg-primary); }
+        .bg-secondary { background-color: var(--bg-secondary); }
+        .bg-content { background-color: var(--bg-content); }
+        .text-primary { color: var(--text-primary); }
+        .text-secondary { color: var(--text-secondary); }
+        .border-theme { border-color: var(--border-color); }
+        .modal-content.success .bg-message { background-color: var(--success-bg); }
+        .modal-content.success .text-message { color: var(--success-text); }
+        .modal-content.error .bg-message { background-color: var(--error-bg); }
+        .modal-content.error .text-message { color: var(--error-text); }
+
+
+        /* Custom scrollbar for aesthetic purposes */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: var(--text-secondary); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
+        
+        /* -- THEME TOGGLE SWITCH -- */
+        .theme-switch-wrapper { display: flex; align-items: center; }
+        .theme-switch { display: inline-block; height: 34px; position: relative; width: 60px; }
+        .theme-switch input { display:none; }
+        .slider { background-color: var(--accent-lapis); bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; }
+        .slider:before { background-color: var(--bg-primary); bottom: 4px; content: ""; height: 26px; left: 4px; position: absolute; transition: .4s; width: 26px; }
+        input:checked + .slider { background-color: var(--accent-gold); }
+        input:checked + .slider:before { transform: translateX(26px); }
+        .slider.round { border-radius: 34px; }
+        .slider.round:before { border-radius: 50%; }
+        .slider .icon { position: absolute; top: 50%; transform: translateY(-50%); color: var(--bg-primary); transition: opacity 0.3s ease; }
+        .slider .sun { right: 8px; opacity: 1; }
+        .slider .moon { left: 8px; opacity: 0; }
+        input:checked + .slider .sun { opacity: 0; }
+        input:checked + .slider .moon { opacity: 1; }
+
+        /* -- Interactive Footer Link Style -- */
+        .footer-link { position: relative; padding-bottom: 4px; color: var(--text-secondary); transition: color 0.3s ease; }
+        .footer-link:hover { color: var(--accent-gold); }
+        .footer-link::after { content: ''; position: absolute; bottom: 0; right: 0; width: 0; height: 2px; background-color: var(--accent-gold); transition: width 0.3s ease-out; }
+        .footer-link:hover::after { width: 100%; left: 0; right: auto; }
+
+        /* Modal Animations */
+        .modal-backdrop {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .modal-backdrop.opacity-0.invisible .modal-content {
+            transform: scale(0.95);
+            opacity: 0;
+        }
+        .modal-backdrop:not(.opacity-0.invisible) .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Custom Input Field with Icon */
+        .input-with-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-with-icon input,
+        .input-with-icon select {
+            padding-right: 3rem; /* Space for the icon */
+            padding-left: 1rem;
+            width: 100%;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color); /* More subtle border */
+            border-radius: 0.5rem; /* Rounded corners */
+            height: 3.5rem; /* Consistent height */
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.2s ease-in-out;
+        }
+        .input-with-icon input:focus,
+        .input-with-icon select:focus {
+            outline: none;
+            border-color: var(--accent-lapis);
+            box-shadow: 0 0 0 2px rgba(var(--accent-lapis-rgb), 0.5); /* Use RGB for shadow */
+        }
+        .input-with-icon .icon {
+            position: absolute;
+            right: 1rem; /* Position the icon on the right */
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            pointer-events: none; /* Make icon unclickable */
+        }
+        /* For select elements, adjust padding to prevent text overlap with arrow */
+        .input-with-icon select {
+            -webkit-appearance: none; /* Remove default arrow */
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23796A57'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); /* Custom arrow */
+            background-repeat: no-repeat;
+            background-position: left 1rem center; /* Position arrow on the left */
+            background-size: 1.2rem;
+        }
+        .input-with-icon select.has-icon {
+            padding-left: 3rem; /* Adjust for icon on right and arrow on left */
+            padding-right: 1rem;
+            background-position: right 1rem center; /* Position icon on the right */
+        }
+        .input-with-icon select.has-icon + .icon {
+            right: auto;
+            left: 1rem; /* Position the icon on the left for select */
+        }
+
+        /* Specific styling for the promotional section */
+        .promo-section {
+            background-color: var(--bg-content);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            /* Ensure it takes full height available in flex container */
+            flex-grow: 1; 
+        }
+        /* Removed ::before pseudo-element for direct image placement */
+        
+        .promo-content {
+            position: relative;
+            z-index: 1;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%; /* Take full height of parent */
+        }
+        .promo-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .promo-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .promo-image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Ensure image doesn't spill */
+        }
+        .promo-image {
+            max-width: 100%; /* Make image responsive to container */
+            max-height: 100%; /* Make image responsive to container */
+            width: auto; /* Maintain aspect ratio */
+            height: auto; /* Maintain aspect ratio */
+            object-fit: contain; /* Ensure entire image is visible */
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        /* Adjust for smaller screens */
+        @media (max-width: 1023px) {
+            .promo-section {
+                height: 300px; /* Fixed height for smaller screens */
+                margin-bottom: 1.5rem;
+            }
+            .promo-image-container {
+                /* On small screens, if promo-image is hidden, this container might not be needed */
+                display: none; 
+            }
+        }
+        /* Adjust for very small screens to ensure form is not too wide */
+        @media (max-width: 640px) {
+            .main-content-wrapper {
+                padding: 1rem; /* Reduce overall padding */
+            }
+            .bg-content {
+                padding: 1.5rem; /* Reduce card padding */
+            }
+        }
+    </style>
+</head>
+<body class="theme-dark">
+
+    <div class="min-h-screen flex flex-col">
+        <!-- Header Section -->
+        <header id="kt_header" class="bg-secondary text-primary p-4 flex justify-between items-center rounded-b-xl shadow-lg relative z-40">
+            <div class="container mx-auto flex justify-between items-center">
+
+                <!-- Branding / Logo -->
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center space-x-3 space-x-reverse">
+                        <i class='bx bxs-pyramid text-4xl' style="color: var(--accent-lapis);"></i>
+                        <h1 class="text-2xl font-bold text-primary">الأستاذ إسلام موسى</h1>
+                    </a>
+                </div>
+
+                <!-- Header Topbar - Theme Switch -->
+                <div class="flex items-center space-x-6"> 
+                    <div class="theme-switch-wrapper">
+                        <label class="theme-switch" for="theme-checkbox">
+                            <input type="checkbox" id="theme-checkbox" />
+                            <div class="slider round">
+                                <i class='bx bxs-sun icon sun'></i>
+                                <i class='bx bxs-moon icon moon'></i>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area - Registration Form -->
+        <main class="flex-1 flex flex-col lg:flex-row-reverse items-center justify-center p-4 sm:p-6 lg:p-8">
+            <!-- Promotional Section (Moved to the left visually for RTL) -->
+            
+
+            <!-- Registration Form Section -->
+            <div class="bg-content rounded-xl shadow-lg p-8 w-full lg:w-1/2 max-w-2xl text-center lg:mr-4">
+                <h2 class="text-3xl font-bold text-primary mb-2">إنشاء حساب جديد</h2>
+                <p class="text-secondary mb-6">ادخل بياناتك بشكل صحيح وسيتم التواصل معاك خلال ساعات قليلة لتفعيل الحساب !</p>
+                
+                <form id="registerForm" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-right">
+                    <!-- Personal Info -->
+                    <div class="input-with-icon">
+                        <input type="text" id="firstName" name="firstName" placeholder="الاسم الأول" class="w-full bg-secondary border-2 border-theme rounded-lg px-4 py-3 text-primary focus:outline-none focus:ring-2 focus:ring-accent-lapis" required>
+                        <i class='bx bx-user icon'></i>
+                    </div>
+                    <div class="input-with-icon">
+                        <input type="text" id="secondName" name="secondName" placeholder="الاسم الثاني" class="w-full bg-secondary border-2 border-theme rounded-lg px-4 py-3 text-primary focus:outline-none focus:ring-2 focus:ring-accent-lapis" required>
+                        <i class='bx bx-user icon'></i>
+                    </div>
+                    <div class="input-with-icon">
+                        <input type="text" id="thirdName" name="thirdName" placeholder="الاسم الثالث" class="w-full bg-secondary border-2 border-theme rounded-lg px-4 py-3 text-primary focus:outline-none focus:ring-2 focus:ring-accent-lapis" required>
+                        <i class='bx bx-user icon'></i>
+                    </div>
+                    <div class="input-with-icon">
+                        <input type="text" id="lastName" name="lastName" placeholder="الاسم الأخير" class="w-full bg-secondary border-2 border-theme rounded-lg px-4 py-3 text-primary focus:outline-none focus:ring-2 focus:ring-accent-lapis" required>
+                        <i class='bx bx-user icon'></i>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="input-with-icon">
+                        <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="رقم الهاتف" class="w-full bg-secondary border-2 border-theme rounded-lg px-4 py-3 text-primary focus:outline-none focus:ring-2 focus:ring-accent-lapis" required>
+                        <i class='bx bx-phone icon'></i>
+                    </div>
+                    <div class="input-with-icon">
+                        <input type="tel" id="guardianPhone" name="guardianPhone" placeholder="رقم ولي الأمر" class="w-full bg-secondary border-2 border-theme rounded-lg px-4 py-3 text-primary focus:outline-none focus:ring-2 focus:ring-accent-lapis">
+                        <i class='bx bx-phone icon'></i>
+                    </div>
+                    
+                    <!-- Educational Info -->
+                    <div class="col-span-1 md:col-span-2 input-with-icon">
+                        <input type="text" id="schoolName" name="schoolName" placeholder="اسم المدرسة" class="w-full bg-secondary border-2 border-theme rounded-lg px-4 py-3 text-primary focus:outline-none focus:ring-2 focus:ring-accent-lapis" required>
+                        <i class='bx bx-school icon'></i>
+                    </div>
+                    
+                    <div class="col-span-1 md:col-span-2 input-with-icon">
+                        <select id="governorate" name="governorate" class="w-full bg-secondary border-2 border-theme rounded-lg px-4 py-3 text-primary focus:outline-none focus:ring-2 focus:ring-accent-lapis has-icon" required>
+                            <option value="">-- اختر محافظتك --</option>
+                            <option value="القاهرة">القاهرة</option>
+                            <option value="الجيزة">الجيزة</option>
+                            <option value="الإسكندرية">الإسكندرية</option>
+                            <option value="الشرقية">الشرقية</option>
+                            <option value="الدقهلية">الدقهلية</option>
+                            <option value="البحيرة">البحيرة</option>
+                            <option value="المنوفية">المنوفية</option>
+                            <option value="القليوبية">القليوبية</option>
+                            <option value="الغربية">الغربية</option>
+                            <option value="كفر الشيخ">كفر الشيخ</option>
+                            <option value="الفيوم">الفيوم</option>
+                            <option value="بني سويف">بني سويف</option>
+                            <option value="المنيا">المنيا</option>
+                            <option value="أسيوط">أسيوط</option>
+                            <option value="سوهاج">سوهاج</option>
+                            <option value="قنا">قنا</option>
+                            <option value="الأقصر">الأقصر</option>
+                            <option value="أسوان">أسوان</option>
+                            <option value="دمياط">دمياط</option>
+                            <option value="بورسعيد">بورسعيد</option>
+                            <option value="الإسماعيلية">الإسماعيلية</option>
+                            <option value="السويس">السويس</option>
+                            <option value="البحر الأحمر">البحر الأحمر</option>
+                            <option value="الوادي الجديد">الوادي الجديد</option>
+                            <option value="مطروح">مطروح</option>
+                            <option value="شمال سيناء">شمال سيناء</option>
+                            <option value="جنوب سيناء">جنوب سيناء</option>
+                        </select>
+                        <i class='bx bx-map icon'></i>
+                    </div>
+                    <div class="col-span-1 md:col-span-2 input-with-icon">
+                        <select id="grade" name="grade" class="w-full bg-secondary border-2 border-theme rounded-lg px-4 py-3 text-primary focus:outline-none focus:ring-2 focus:ring-accent-lapis has-icon" required>
+                            <option value="">-- اختر صفك الدراسي --</option>
+                            <optgroup label="المرحلة الإعدادية">
+                                <option value="الصف الأول الإعدادي">الصف الأول الإعدادي</option>
+                                <option value="الصف الثاني الإعدادي">الصف الثاني الإعدادي</option>
+                                <option value="الصف الثالث الإعدادي">الصف الثالث الإعدادي</option>
+                            </optgroup>
+                            <optgroup label="المرحلة الثانوية">
+                                <option value="الصف الأول الثانوي">الصف الأول الثانوي</option>
+                                <option value="الصف الثاني الثانوي">الصف الثاني الثانوي</option>
+                                <option value="الصف الثالث الثانوي">الصف الثالث الثانوي</option>
+                            </optgroup>
+                        </select>
+                        <i class='bx bx-book-alt icon'></i>
+                    </div>
+                    
+                    <div class="col-span-1 md:col-span-2 input-with-icon">
+                        <select id="specialization" name="specialization" class="w-full bg-secondary border-2 border-theme rounded-lg px-4 py-3 text-primary focus:outline-none focus:ring-2 focus:ring-accent-lapis has-icon" required>
+                            <option value="">-- اختر شعبتك --</option>
+                            <option value="علمي علوم">علمي علوم</option>
+                            <option value="علمي رياضة">علمي رياضة</option>
+                            <option value="أدبي">أدبي</option>
+                        </select>
+                        <i class='bx bx-category icon'></i>
+                    </div>
+
+                    <!-- Account Credentials -->
+                    <div class="col-span-1 md:col-span-2 input-with-icon">
+                        <input type="email" id="email" name="email" placeholder="البريد الإلكتروني" class="w-full bg-secondary border-2 border-theme rounded-lg px-4 py-3 text-primary focus:outline-none focus:ring-2 focus:ring-accent-lapis" required>
+                        <i class='bx bx-envelope icon'></i>
+                    </div>
+                    <div class="col-span-1 md:col-span-2 input-with-icon">
+                        <input type="password" id="password" name="password" placeholder="كلمة السر" class="w-full bg-secondary border-2 border-theme rounded-lg px-4 py-3 text-primary focus:outline-none focus:ring-2 focus:ring-accent-lapis" required>
+                        <i class='bx bx-lock icon'></i>
+                    </div>
+                    <div class="col-span-1 md:col-span-2 input-with-icon">
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="تأكيد كلمة السر" class="w-full bg-secondary border-2 border-theme rounded-lg px-4 py-3 text-primary focus:outline-none focus:ring-2 focus:ring-accent-lapis" required>
+                        <i class='bx bx-lock icon'></i>
+                    </div>
+                    
+                    <div class="col-span-1 md:col-span-2">
+                        <button type="submit" style="border: 10px; background-color: #60a5fa;" class="w-full bg-accent-lapis hover:opacity-90 text-white font-bold py-3 px-4 rounded-lg mt-4 transition-colors duration-300 text-xl py-4">
+                            طلب إنشاء حساب !
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-6 text-center text-secondary">
+                    يوجد لديك حساب بالفعل؟ 
+                    <a href="login.html" style="color:#60a5fa;" class="text-accent-lapis hover:text-accent-gold transition-colors duration-300">ادخل إلى حسابك الآن !</a>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer style="background-color: var(--footer-bg);" class="pt-12 mt-auto">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- About Section -->
+                    <div class="lg:col-span-2">
+                        <div class="flex items-center space-x-3 space-x-reverse mb-4">
+                            <i class='bx bxs-pyramid text-4xl' style="color: var(--accent-lapis);"></i>
+                            <h1 class="text-2xl font-bold" style="color: var(--footer-text);">الأستاذ إسلام موسى</h1>
+                        </div>
+                        <p style="color: var(--text-secondary); text-align: justify;">منصة متخصصة في تدريس مادتي التاريخ والجغرافيا لجميع مراحل التعليم الإعدادي والثانوي، تهدف إلى تبسيط المعلومة وتقديمها بأساليب مبتكرة وممتعة.</p>
+                    </div>
+                    <!-- Links Section -->
+                    <div>
+                        <h3 class="text-lg font-bold mb-4" style="color: var(--footer-text);">روابط هامة</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="footer-link">الرئيسية</a></li>
+                            <li><a href="#" class="footer-link">كل الكورسات</a></li>
+                            <li><a href="#" class="footer-link">عن الأستاذ</a></li>
+                            <li><a href="#" class="footer-link">تواصل معنا</a></li>
+                        </ul>
+                    </div>
+                    <!-- Social Media Section -->
+                    <div>
+                        <h3 class="text-lg font-bold mb-4" style="color: var(--footer-text);">تابعنا على</h3>
+                        <div class="flex space-x-4 space-x-reverse">
+                            <a href="#" class="text-secondary hover:text-red-600 transition-transform transform hover:scale-125"><i class='bx bxl-youtube text-3xl'></i></a>
+                            <a href="#" class="text-secondary hover:text-blue-600 transition-transform transform hover:scale-125"><i class='bx bxl-facebook-square text-3xl'></i></a>
+                            <a href="#" class="text-secondary hover:text-green-500 transition-transform transform hover:scale-125"><i class='bx bxl-whatsapp text-3xl'></i></a>
+                            <a href="#" class="text-secondary hover:text-blue-400 transition-transform transform hover:scale-125"><i class='bx bxl-telegram text-3xl'></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 py-4 border-t" style="border-color: rgba(255,255,255,0.1); color: var(--text-secondary);" class="text-center text-sm">
+                    <p class="text-center w-full">جميع الحقوق محفوظة &copy; <span id="currentYear"></span> | الأستاذ إسلام موسى</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Generic Message Modal (for form feedback) -->
+    <div id="messageModal" class="modal-backdrop fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 opacity-0 invisible z-50">
+        <div class="modal-content bg-content rounded-2xl shadow-2xl w-full max-w-sm p-6 transform scale-95 opacity-0">
+            <h3 id="messageModalTitle" class="text-xl font-bold text-primary text-center mb-4"></h3>
+            <p id="messageModalText" class="text-center text-secondary mb-6"></p>
+            <button id="messageModalCloseBtn" class="w-full bg-accent-lapis hover:opacity-90 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-300">
+                إغلاق
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- THEME TOGGLE SCRIPT ---
+            const themeCheckbox = document.getElementById('theme-checkbox');
+            const body = document.body;
+
+            /**
+             * Applies the selected theme (dark or light) to the body.
+             * @param {string} theme - The theme to apply ('dark' or 'light').
+             */
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    body.classList.remove('theme-light');
+                    body.classList.add('theme-dark');
+                    themeCheckbox.checked = true;
+                } else {
+                    body.classList.remove('theme-dark');
+                    body.classList.add('theme-light');
+                    themeCheckbox.checked = false;
+                }
+            }
+
+            // Load saved theme from local storage or default to dark
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+
+            // Listen for changes on the theme toggle checkbox
+            themeCheckbox.addEventListener('change', () => {
+                const newTheme = themeCheckbox.checked ? 'dark' : 'light';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            // --- Generic Message Modal Logic ---
+            const messageModal = document.getElementById('messageModal');
+            const messageModalContent = messageModal.querySelector('.modal-content');
+            const messageModalTitle = document.getElementById('messageModalTitle');
+            const messageModalText = document.getElementById('messageModalText');
+            const messageModalCloseBtn = document.getElementById('messageModalCloseBtn');
+
+            /**
+             * Displays a generic message modal.
+             * @param {string} title - The title of the message.
+             * @param {string} message - The content of the message.
+             * @param {boolean} isSuccess - True for a success message (green), false for error (red).
+             */
+            const showMessageModal = (title, message, isSuccess) => {
+                messageModalTitle.textContent = title;
+                messageModalText.textContent = message;
+                // Apply success or error styling
+                if (isSuccess) {
+                    messageModalContent.classList.remove('error');
+                    messageModalContent.classList.add('success');
+                } else {
+                    messageModalContent.classList.remove('success');
+                    messageModalContent.classList.add('error');
+                }
+                messageModal.classList.remove('invisible', 'opacity-0');
+                messageModalContent.classList.remove('scale-95', 'opacity-0');
+            };
+
+            /**
+             * Hides the generic message modal.
+             */
+            const hideMessageModal = () => {
+                messageModal.classList.add('invisible', 'opacity-0');
+                messageModalContent.classList.add('scale-95', 'opacity-0');
+            };
+
+            // Close message modal when clicking the close button or outside
+            messageModalCloseBtn.addEventListener('click', hideMessageModal);
+            messageModal.addEventListener('click', (e) => {
+                if (e.target === messageModal) hideMessageModal();
+            });
+
+            // --- Registration Form Logic ---
+            const registerForm = document.getElementById('registerForm');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+
+            registerForm.addEventListener('submit', (e) => {
+                e.preventDefault(); // Prevent default form submission
+
+                // Basic validation for demonstration
+                const formInputs = registerForm.querySelectorAll('input[required], select[required]');
+                let allFieldsFilled = true;
+                formInputs.forEach(input => {
+                    // Check for empty string for text/tel inputs and default option for select
+                    if (input.type === 'text' || input.type === 'tel' || input.type === 'email' || input.type === 'password') {
+                        if (input.value.trim() === '') {
+                            allFieldsFilled = false;
+                        }
+                    } else if (input.tagName === 'SELECT') {
+                        if (input.value === '') { // Check if default option is selected
+                            allFieldsFilled = false;
+                        }
+                    }
+                });
+
+                if (!allFieldsFilled) {
+                    showMessageModal('خطأ في الإدخال', 'الرجاء ملء جميع الحقول المطلوبة.', false);
+                    return;
+                }
+
+                if (passwordInput.value !== confirmPasswordInput.value) {
+                    showMessageModal('خطأ في كلمة السر', 'كلمة السر وتأكيد كلمة السر غير متطابقين.', false);
+                    return;
+                }
+
+                // Simulate successful registration
+                showMessageModal('طلب إنشاء حساب', 'تم استلام طلبك بنجاح! سيتم التواصل معاك خلال ساعات قليلة لتفعيل الحساب.', true);
+                
+                // You would typically send this data to a server here
+                // console.log('Form Data:', new FormData(registerForm));
+
+                // Optional: Redirect to a confirmation page or login page after a delay
+                setTimeout(() => {
+                    window.location.href = 'login.html'; // Redirect to login page
+                }, 3000); // Redirect after 3 seconds
+            });
+
+            // Update current year in footer dynamically
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+    </script>
+
+</body>
+</html>

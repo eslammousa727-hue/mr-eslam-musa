@@ -1,0 +1,210 @@
+body {
+    font-family: 'Cairo', sans-serif;
+}
+/* -- NEW THEME & COLORS -- */
+.theme-light {
+    --bg-primary: #F5F1E7; /* Papyrus White */
+    --bg-secondary: #EAE3D2; /* Light Papyrus */
+    --text-primary: #312A1F; /* Dark Clay */
+    --text-secondary: #796A57;
+    --accent-gold: #D4AF37; /* Classic Gold */
+    --accent-lapis: #26428B; /* Lapis Lazuli Blue */
+    --hero-bg: url('https://www.transparenttextures.com/patterns/pinstripe.png');
+    --icon-fill: rgba(49, 42, 1, 0.07);
+    --footer-bg: #312A1F; /* Dark Clay - Suitable for light theme */
+    --footer-text: #F5F1E7;
+}
+.theme-dark {
+    --bg-primary: #111827; /* Midnight Blue */
+    --bg-secondary: #1F2937; /* Dark Slate */
+    --text-primary: #F9FAFB; /* Off-white */
+    --text-secondary: #9CA3AF;
+    --accent-gold: #FBBF24; /* Brighter Gold */
+    --accent-lapis: #60A5FA; /* Lighter Lapis */
+    --hero-bg: url('https://www.transparenttextures.com/patterns/star-ring.png');
+    --icon-fill: rgba(249, 250, 251, 0.05);
+    --footer-bg: #111827; /* Midnight Blue - As requested */
+    --footer-text: #F9FAFB;
+}
+.bg-primary { background-color: var(--bg-primary); }
+.bg-secondary { background-color: var(--bg-secondary); }
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.bg-accent-gold { background-color: var(--accent-gold); }
+.text-accent-gold { color: var(--accent-gold); }
+.border-accent-lapis { border-color: var(--accent-lapis); }
+.bg-accent-lapis { background-color: var(--accent-lapis); }
+.text-accent-lapis { color: var(--accent-lapis); }
+
+.hero-section {
+    background-color: var(--bg-secondary);
+    background-image: var(--hero-bg);
+    position: relative;
+    overflow: hidden;
+}
+.btn-primary {
+    background: linear-gradient(45deg, var(--accent-lapis), #3b82f6);
+    color: white;
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4);
+}
+.btn-secondary {
+    background-color: transparent;
+    border: 2px solid var(--accent-gold);
+    color: var(--accent-gold);
+    transition: all 0.3s ease;
+}
+.btn-secondary:hover {
+    background-color: var(--accent-gold);
+    color: var(--bg-secondary);
+}
+
+/* -- DYNAMIC ICONS ANIMATION -- */
+@keyframes drift {
+    from { transform: rotate(0deg) translateX(10px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(10px) rotate(-360deg); }
+}
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+.dynamic-icon {
+    position: absolute;
+    color: var(--icon-fill);
+    fill: var(--icon-fill);
+    animation: drift 20s infinite linear, fadeInOut 15s infinite alternate;
+    z-index: 0;
+    transition: color 0.5s, fill 0.5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dynamic-icon i { font-size: 100%; }
+
+/* -- Why Us Section & Courses Section Card Styles -- */
+.feature-card, .course-card {
+    background-color: var(--bg-secondary);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.feature-card:hover, .course-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px -8px var(--accent-gold);
+}
+
+.course-card .btn-action {
+    background-color: var(--accent-lapis);
+    color: var(--bg-primary);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.course-card .btn-action:hover {
+    background-color: #3b82f6;
+    transform: scale(1.05);
+}
+.course-card .btn-details {
+    background-color: transparent;
+    border: 2px solid var(--accent-lapis);
+    color: var(--accent-lapis);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.course-card .btn-details:hover {
+    background-color: var(--accent-lapis);
+    color: var(--bg-primary);
+}
+
+/* -- Interactive Footer Link Style -- */
+.footer-link {
+    position: relative;
+    padding-bottom: 4px;
+}
+.footer-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-gold);
+    transition: width 0.3s ease-out;
+}
+.footer-link:hover::after {
+    width: 100%;
+    left: 0;
+    right: auto;
+}
+
+/* -- Dynamic Logo Style -- */
+.logo-container {
+    transition: transform 0.4s ease;
+}
+.logo-container:hover {
+    transform: scale(1.05);
+}
+.logo-container h1 {
+    transition: text-shadow 0.4s ease, color 0.4s ease;
+}
+.logo-container:hover h1 {
+    color: var(--accent-lapis);
+    text-shadow: 0 0 10px var(--accent-gold);
+}
+
+/* -- NEW THEME TOGGLE SWITCH -- */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+}
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+}
+.theme-switch input {
+    display:none;
+}
+.slider {
+    background-color: var(--accent-lapis);
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+}
+.slider:before {
+    background-color: var(--bg-primary);
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 26px;
+}
+input:checked + .slider {
+    background-color: var(--accent-gold);
+}
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+.slider .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--bg-primary);
+    transition: opacity 0.3s ease;
+}
+.slider .sun { right: 8px; opacity: 1; }
+.slider .moon { left: 8px; opacity: 0; }
+input:checked + .slider .sun { opacity: 0; }
+input:checked + .slider .moon { opacity: 1; }

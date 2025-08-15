@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأستاذ إسلام موسى | التاريخ والجغرافيا</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Link to Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        /* -- NEW THEME & COLORS -- */
+        .theme-light {
+            --bg-primary: #F5F1E7; /* Papyrus White */
+            --bg-secondary: #EAE3D2; /* Light Papyrus */
+            --text-primary: #312A1F; /* Dark Clay */
+            --text-secondary: #796A57;
+            --accent-gold: #D4AF37; /* Classic Gold */
+            --accent-lapis: #26428B; /* Lapis Lazuli Blue */
+            --hero-bg: url('https://www.transparenttextures.com/patterns/pinstripe.png');
+            --icon-fill: rgba(49, 42, 1, 0.07);
+            --footer-bg: #312A1F; /* Dark Clay - Suitable for light theme */
+            --footer-text: #F5F1E7;
+        }
+        .theme-dark {
+            --bg-primary: #111827; /* Midnight Blue */
+            --bg-secondary: #1F2937; /* Dark Slate */
+            --text-primary: #F9FAFB; /* Off-white */
+            --text-secondary: #9CA3AF;
+            --accent-gold: #FBBF24; /* Brighter Gold */
+            --accent-lapis: #60A5FA; /* Lighter Lapis */
+            --hero-bg: url('https://www.transparenttextures.com/patterns/star-ring.png');
+            --icon-fill: rgba(249, 250, 251, 0.05);
+            --footer-bg: #111827; /* Midnight Blue - As requested */
+            --footer-text: #F9FAFB;
+        }
+        .bg-primary { background-color: var(--bg-primary); }
+        .bg-secondary { background-color: var(--bg-secondary); }
+        .text-primary { color: var(--text-primary); }
+        .text-secondary { color: var(--text-secondary); }
+        .bg-accent-gold { background-color: var(--accent-gold); }
+        .text-accent-gold { color: var(--accent-gold); }
+        .border-accent-lapis { border-color: var(--accent-lapis); }
+        .bg-accent-lapis { background-color: var(--accent-lapis); }
+        .text-accent-lapis { color: var(--accent-lapis); }
+
+        .hero-section {
+            background-color: var(--bg-secondary);
+            background-image: var(--hero-bg);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-lapis), #3b82f6);
+            color: white;
+            transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 7px 20px rgba(59, 130, 246, 0.4);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--accent-gold);
+            color: var(--accent-gold);
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: var(--accent-gold);
+            color: var(--bg-secondary);
+        }
+
+        /* -- DYNAMIC ICONS ANIMATION -- */
+        @keyframes drift {
+            from { transform: rotate(0deg) translateX(10px) rotate(0deg); }
+            to   { transform: rotate(360deg) translateX(10px) rotate(-360deg); }
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+        .dynamic-icon {
+            position: absolute;
+            color: var(--icon-fill);
+            fill: var(--icon-fill);
+            animation: drift 20s infinite linear, fadeInOut 15s infinite alternate;
+            z-index: 0;
+            transition: color 0.5s, fill 0.5s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .dynamic-icon i { font-size: 100%; }
+        
+        /* -- Why Us Section & Courses Section Card Styles -- */
+        .feature-card, .course-card {
+            background-color: var(--bg-secondary);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover, .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px -8px var(--accent-gold);
+        }
+        
+        .course-card .btn-action {
+            background-color: var(--accent-lapis);
+            color: var(--bg-primary);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .course-card .btn-action:hover {
+            background-color: #3b82f6;
+            transform: scale(1.05);
+        }
+        .course-card .btn-details {
+            background-color: transparent;
+            border: 2px solid var(--accent-lapis);
+            color: var(--accent-lapis);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .course-card .btn-details:hover {
+            background-color: var(--accent-lapis);
+            color: var(--bg-primary);
+        }
+
+        /* -- Interactive Footer Link Style -- */
+        .footer-link {
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-gold);
+            transition: width 0.3s ease-out;
+        }
+        .footer-link:hover::after {
+            width: 100%;
+            left: 0;
+            right: auto;
+        }
+        
+        /* -- Dynamic Logo Style -- */
+        .logo-container {
+            transition: transform 0.4s ease;
+        }
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+        .logo-container h1 {
+            transition: text-shadow 0.4s ease, color 0.4s ease;
+        }
+        .logo-container:hover h1 {
+            color: var(--accent-lapis);
+            text-shadow: 0 0 10px var(--accent-gold);
+        }
+
+        /* -- NEW THEME TOGGLE SWITCH -- */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        .theme-switch {
+            display: inline-block;
+            height: 34px;
+            position: relative;
+            width: 60px;
+        }
+        .theme-switch input {
+            display:none;
+        }
+        .slider {
+            background-color: var(--accent-lapis);
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+        }
+        .slider:before {
+            background-color: var(--bg-primary);
+            bottom: 4px;
+            content: "";
+            height: 26px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 26px;
+        }
+        input:checked + .slider {
+            background-color: var(--accent-gold);
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .slider.round {
+            border-radius: 34px;
+        }
+        .slider.round:before {
+            border-radius: 50%;
+        }
+        .slider .icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--bg-primary);
+            transition: opacity 0.3s ease;
+        }
+        .slider .sun { right: 8px; opacity: 1; }
+        .slider .moon { left: 8px; opacity: 0; }
+        input:checked + .slider .sun { opacity: 0; }
+        input:checked + .slider .moon { opacity: 1; }
+    </style>
+</head>
+<body class="bg-primary text-primary transition-colors duration-500 theme-light">
+
+    <!-- Header -->
+    <header class="bg-secondary shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="logo-container flex items-center space-x-3 space-x-reverse">
+                 <i class='bx bxs-pyramid text-4xl text-accent-lapis'></i>
+                <h1 class="text-2xl font-bold text-primary">الأستاذ إسلام موسى</h1>
+            </a>
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <!-- New Theme Toggle Switch -->
+                <div class="theme-switch-wrapper">
+                    <label class="theme-switch" for="theme-checkbox">
+                        <input type="checkbox" id="theme-checkbox" />
+                        <div class="slider round">
+                            <i class='bx bxs-sun icon sun'></i>
+                            <i class='bx bxs-moon icon moon'></i>
+                        </div>
+                    </label>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-4 space-x-reverse">
+                    <a href="../dashboard/login.php" class="px-5 py-2 rounded-lg btn-secondary font-bold">تسجيل الدخول</a>
+                    <a href="../dashboard/register.php" class="px-5 py-2 rounded-lg btn-primary font-bold">حساب جديد</a>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="p-2 rounded-md focus:outline-none">
+                        <i class='bx bx-menu text-3xl text-primary'></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-secondary border-t border-primary/10">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="../dashboard/login.php" class="block px-3 py-2 rounded-md text-base font-bold text-primary hover:bg-primary hover:text-secondary transition-all duration-300 ease-in-out hover:pr-6">تسجيل الدخول</a>
+                <a href="../dashboard/register.php" class="block px-3 py-2 rounded-md text-base font-bold text-primary hover:bg-primary hover:text-secondary transition-all duration-300 ease-in-out hover:pr-6">حساب جديد</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div id="dynamic-icons-container" class="absolute inset-0 w-full h-full">
+                <!-- Dynamic icons will be injected here by JavaScript -->
+            </div>
+            <div class="container mx-auto px-6 py-16 md:py-24 flex flex-col-reverse md:flex-row items-center relative z-10">
+                <div class="md:w-1/2 text-center md:text-right mt-10 md:mt-0">
+                    <h2 class="text-4xl md:text-6xl font-black text-primary leading-tight mb-4">
+                        <span class="text-accent-lapis">التاريخ</span> و <span class="text-accent-gold">الجغرافيا</span> <br class="hidden md:block"/>  بين إيديك ببساطة
+                    </h2>
+                    <p class="text-lg text-secondary mb-8 max-w-lg mx-auto md:mx-0">
+                        مع الأستاذ إسلام موسى، هنحوّل شغفك بالمعرفة لتفوق. انضم لمنصتنا وابدأ رحلتك التعليمية.
+                    </p>
+                    <a href="#" class="inline-block px-12 py-4 text-lg font-bold rounded-xl btn-primary">
+                        !ابدأ رحلتك الآن
+                    </a>
+                </div>
+                
+                <div class="w-full md:w-1/2 flex justify-center">
+                    <div class="relative w-96 h-96 md:w-[450px] md:h-[450px]">
+                        <div class="absolute inset-0 border-4 border-dashed border-accent-gold rounded-full transform rotate-45"></div>
+                        <div class="absolute inset-0 bg-secondary rounded-full transform scale-90"></div>
+                        <div id="image-placeholder" class="relative w-full h-full rounded-full border-8 border-primary shadow-2xl bg-cover bg-center" style="background-image: url('../p.png');">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Us Section -->
+        <section class="bg-primary py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-black text-center mb-12 text-primary"> مميزات المنصة  </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <div class="feature-card rounded-2xl p-8 text-center">
+                        <div class="mb-6 inline-block p-4 bg-primary rounded-full">
+                            <i class='bx bxs-edit-alt text-4xl text-accent-gold'></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-primary mb-3">تدريب مكثف واختبارات </h3>
+                        <p class="text-secondary">آلاف الأسئلة التي تغطي المنهج بالكامل، مع اختبارات إلكترونية تحاكي امتحان الوزارة لتساعدك على قياس مستواك وضمان استعدادك التام.</p>
+                    </div>
+
+                    <div class="feature-card rounded-2xl p-8 text-center">
+                        <div class="mb-6 inline-block p-4 bg-primary rounded-full">
+                            <i class='bx bx-video text-4xl text-accent-gold'></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-primary mb-3">شرح مباشر ومسجل</h3>
+                        <p class="text-secondary">يمكنك حضور الشرح في بث مباشر تفاعلي، أو مشاهدة المحاضرات مسجلة بالكامل في أي وقت يناسبك، مما يتيح لك المراجعة بمرونة وسهولة.</p>
+                    </div>
+
+                    <div class="feature-card rounded-2xl p-8 text-center">
+                        <div class="mb-6 inline-block p-4 bg-primary rounded-full">
+                           <i class='bx bxs-user-check text-4xl text-accent-gold'></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-primary mb-3">متابعة دورية</h3>
+                        <p class="text-secondary">نظام متكامل لمتابعة مستواك الدراسي أولًا بأول. يتم تزويدك أنت وولي الأمر بتقارير دورية توضح مدى تقدمك ونقاط القوة والضعف لديك.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Courses Section -->
+        <section class="bg-secondary py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-black text-center mb-12 text-primary">أحدث الكورسات</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Course Card 1 -->
+                    <div class="course-card rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                        <img src="../1a.png" alt="صورة الكورس" class="w-full h-56 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold text-primary mb-2">كورس دراسات - الصف الأول الإعدادي</h3>
+                            <p class="text-secondary mb-4 flex-grow">تأسيس قوي في التاريخ والجغرافيا لمنهج أولى إعدادي.</p>
+                            <div class="flex items-center justify-between mt-4 space-x-2 space-x-reverse">
+                                <a href="#" class="w-1/2 text-center px-4 py-2 rounded-lg font-semibold btn-action">اشترك الآن!</a>
+                                <a href="#" class="w-1/2 text-center px-4 py-2 rounded-lg font-semibold btn-details">التفاصيل</a>
+                            </div>
+                        </div>
+                        <div class="bg-primary p-4 flex justify-between items-center text-sm text-secondary border-t border-primary/10">
+                            <span><i class='bx bx-calendar mr-1'></i> يبدأ ١ أغسطس</span>
+                            <span class="font-bold text-lg text-accent-lapis">100.00 ج</span>
+                        </div>
+                    </div>
+
+                    <!-- Course Card 2 -->
+                    <div class="course-card rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                        <img src="../2a.jpg" alt="صورة الكورس" class="w-full h-56 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold text-primary mb-2">كورس دراسات - الصف الثاني الإعدادي</h3>
+                            <p class="text-secondary mb-4 flex-grow">شرح شامل لمنهج الدراسات الاجتماعية مع تدريبات مكثفة.</p>
+                            <div class="flex items-center justify-between mt-4 space-x-2 space-x-reverse">
+                                <a href="#" class="w-1/2 text-center px-4 py-2 rounded-lg font-semibold btn-action">اشترك الآن!</a>
+                                <a href="#" class="w-1/2 text-center px-4 py-2 rounded-lg font-semibold btn-details">التفاصيل</a>
+                            </div>
+                        </div>
+                        <div class="bg-primary p-4 flex justify-between items-center text-sm text-secondary border-t border-primary/10">
+                            <span><i class='bx bx-calendar mr-1'></i> يبدأ ١ أغسطس</span>
+                            <span class="font-bold text-lg text-accent-lapis">100.00 ج</span>
+                        </div>
+                    </div>
+
+                    <!-- Course Card 3 -->
+                    <div class="course-card rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                        <img src="../3a.jpg" alt="صورة الكورس" class="w-full h-56 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold text-primary mb-2">كورس دراسات - الشهادة الإعدادية</h3>
+                            <p class="text-secondary mb-4 flex-grow">مراجعات نهائية وحل امتحانات المحافظات للشهادة الإعدادية.</p>
+                            <div class="flex items-center justify-between mt-4 space-x-2 space-x-reverse">
+                                <a href="#" class="w-1/2 text-center px-4 py-2 rounded-lg font-semibold btn-action">اشترك الآن!</a>
+                                <a href="#" class="w-1/2 text-center px-4 py-2 rounded-lg font-semibold btn-details">التفاصيل</a>
+                            </div>
+                        </div>
+                        <div class="bg-primary p-4 flex justify-between items-center text-sm text-secondary border-t border-primary/10">
+                            <span><i class='bx bx-calendar mr-1'></i> يبدأ ١ أغسطس</span>
+                            <span class="font-bold text-lg text-accent-lapis">120.00 ج</span>
+                        </div>
+                    </div>
+                     <!-- Course Card 4 -->
+                    <div class="course-card rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                        <img src="../1s.jpeg" alt="صورة الكورس" class="w-full h-56 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold text-primary mb-2">كورس تاريخ - الصف الأول الثانوي</h3>
+                            <p class="text-secondary mb-4 flex-grow">شرح كامل ومراجعات وامتحانات على منهج الترم الأول.</p>
+                            <div class="flex items-center justify-between mt-4 space-x-2 space-x-reverse">
+                                <a href="#" class="w-1/2 text-center px-4 py-2 rounded-lg font-semibold btn-action">اشترك الآن!</a>
+                                <a href="#" class="w-1/2 text-center px-4 py-2 rounded-lg font-semibold btn-details">التفاصيل</a>
+                            </div>
+                        </div>
+                        <div class="bg-primary p-4 flex justify-between items-center text-sm text-secondary border-t border-primary/10">
+                            <span><i class='bx bx-calendar mr-1'></i> يبدأ ١ سبتمبر</span>
+                            <span class="font-bold text-lg text-accent-lapis">120.00 ج</span>
+                        </div>
+                    </div>
+
+                    <!-- Course Card 5 -->
+                    <div class="course-card rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                        <img src="../2s.jpg" alt="صورة الكورس" class="w-full h-56 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold text-primary mb-2">كورس تاريخ - الصف الثاني الثانوي</h3>
+                            <p class="text-secondary mb-4 flex-grow">تغطية شاملة لمنهج التاريخ مع خرائط تفاعلية وحل أسئلة.</p>
+                            <div class="flex items-center justify-between mt-4 space-x-2 space-x-reverse">
+                                <a href="#" class="w-1/2 text-center px-4 py-2 rounded-lg font-semibold btn-action">اشترك الآن!</a>
+                                <a href="#" class="w-1/2 text-center px-4 py-2 rounded-lg font-semibold btn-details">التفاصيل</a>
+                            </div>
+                        </div>
+                        <div class="bg-primary p-4 flex justify-between items-center text-sm text-secondary border-t border-primary/10">
+                            <span><i class='bx bx-calendar mr-1'></i> يبدأ ١ سبتمبر</span>
+                            <span class="font-bold text-lg text-accent-lapis">120.00 ج</span>
+                        </div>
+                    </div>
+
+                    <!-- Course Card 6 -->
+                    <div class="course-card rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                        <img src="../3s.jpg" alt="صورة الكورس" class="w-full h-56 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold text-primary mb-2">كورس تاريخ - الثانوية العامة</h3>
+                            <p class="text-secondary mb-4 flex-grow">منهج التاريخ كاملاً مع التركيز على أسئلة النظام الجديد.</p>
+                            <div class="flex items-center justify-between mt-4 space-x-2 space-x-reverse">
+                                <a href="#" class="w-1/2 text-center px-4 py-2 rounded-lg font-semibold btn-action">اشترك الآن!</a>
+                                <a href="#" class="w-1/2 text-center px-4 py-2 rounded-lg font-semibold btn-details">التفاصيل</a>
+                            </div>
+                        </div>
+                        <div class="bg-primary p-4 flex justify-between items-center text-sm text-secondary border-t border-primary/10">
+                            <span><i class='bx bx-calendar mr-1'></i> يبدأ ١ أغسطس</span>
+                            <span class="font-bold text-lg text-accent-lapis">150.00 ج</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer style="background-color: var(--footer-bg);" class="text-primary pt-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- About Section -->
+                <div class="lg:col-span-2">
+                    <div class="flex items-center space-x-3 space-x-reverse mb-4">
+                        <i class='bx bxs-pyramid text-4xl text-accent-lapis'></i>
+                        <h1 class="text-2xl font-bold" style="color: var(--footer-text);">الأستاذ إسلام موسى</h1>
+                    </div>
+                    <p style="color: var(--text-secondary);">منصة متخصصة في تدريس مادتي التاريخ والجغرافيا لجميع مراحل التعليم الإعدادي والثانوي، تهدف إلى تبسيط المعلومة وتقديمها بأساليب مبتكرة وممتعة.</p>
+                </div>
+                <!-- Links Section -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" style="color: var(--footer-text);">روابط هامة</h3>
+                    <ul class="space-y-2">
+                        <!-- ضع هنا مسار الصفحة المطلوبة بدلاً من # -->
+                        <li><a href="index.html" class="footer-link" style="color: var(--text-secondary);">الرئيسية</a></li>
+                        <li><a href="courses.html" class="footer-link" style="color: var(--text-secondary);">كل الكورسات</a></li>
+                        <li><a href="about.html" class="footer-link" style="color: var(--text-secondary);">عن الأستاذ</a></li>
+                        <li><a href="contact.html" class="footer-link" style="color: var(--text-secondary);">تواصل معنا</a></li>
+                    </ul>
+                </div>
+                <!-- Social Media Section -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" style="color: var(--footer-text);">تابعنا على</h3>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <a href="#" style="color: var(--text-secondary);" class="hover:text-red-600 transition-transform transform hover:scale-125"><i class='bx bxl-youtube text-3xl'></i></a>
+                        <a href="#" style="color: var(--text-secondary);" class="hover:text-blue-600 transition-transform transform hover:scale-125"><i class='bx bxl-facebook-square text-3xl'></i></a>
+                        <a href="#" style="color: var(--text-secondary);" class="hover:text-green-500 transition-transform transform hover:scale-125"><i class='bx bxl-whatsapp text-3xl'></i></a>
+                        <a href="#" style="color: var(--text-secondary);" class="hover:text-blue-400 transition-transform transform hover:scale-125"><i class='bx bxl-telegram text-3xl'></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 py-4 border-t" style="border-color: rgba(255,255,255,0.1); color: var(--text-secondary);"  class="text-center text-sm">
+                <p>جميع الحقوق محفوظة &copy; 2025 | الأستاذ إسلام موسى</p>
+            </div>
+        </div>
+    </footer>
+    
+    
+
+    <script>
+        // --- THEME TOGGLE SCRIPT ---
+        const themeCheckbox = document.getElementById('theme-checkbox');
+        const body = document.body;
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                body.classList.remove('theme-light');
+                body.classList.add('theme-dark');
+                themeCheckbox.checked = true;
+            } else {
+                body.classList.remove('theme-dark');
+                body.classList.add('theme-light');
+                themeCheckbox.checked = false;
+            }
+        }
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(savedTheme);
+
+        themeCheckbox.addEventListener('change', () => {
+            const newTheme = themeCheckbox.checked ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        });
+
+        // --- DYNAMIC ICONS SCRIPT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('dynamic-icons-container');
+            if (container) {
+                const icons = [
+                    `<i class='bx bxs-pyramid'></i>`, `<i class='bx bx-sword'></i>`, `<i class='bx bx-castle'></i>`,
+                    `<i class='bx bx-globe'></i>`, `<i class='bx bx-map'></i>`,
+                ];
+
+                const iconCount = 15;
+                for (let i = 0; i < iconCount; i++) {
+                    const iconWrapper = document.createElement('div');
+                    iconWrapper.className = 'dynamic-icon';
+                    iconWrapper.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+                    
+                    const size = Math.random() * 6 + 4;
+                    const duration = Math.random() * 20 + 15;
+                    const delay = Math.random() * 10;
+                    
+                    iconWrapper.style.width = `${size}vw`;
+                    iconWrapper.style.height = `${size}vw`;
+                    iconWrapper.style.fontSize = `${size}vw`;
+                    iconWrapper.style.top = `${Math.random() * 90}%`;
+                    iconWrapper.style.left = `${Math.random() * 90}%`;
+                    iconWrapper.style.animationDuration = `${duration}s, ${duration - 5}s`;
+                    iconWrapper.style.animationDelay = `${delay}s`;
+                    
+                    container.appendChild(iconWrapper);
+                }
+            }
+        });
+
+        // --- MOBILE MENU SCRIPT ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

@@ -66,7 +66,7 @@ body {
 /* -- DYNAMIC ICONS ANIMATION -- */
 @keyframes drift {
     from { transform: rotate(0deg) translateX(10px) rotate(0deg); }
-    to   { transform: rotate(360deg) translateX(10px) rotate(-360deg); }
+    to  { transform: rotate(360deg) translateX(10px) rotate(-360deg); }
 }
 @keyframes fadeInOut {
     0%, 100% { opacity: 0; }
